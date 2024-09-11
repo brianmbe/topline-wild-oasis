@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import styled from "styled-components";
-import { formatCurrency } from "../../utils/helpers";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCabin } from "../../services/apiCabins";
-import toast from "react-hot-toast";
 import { useState } from "react";
+
+import { formatCurrency } from "../../utils/helpers";
+import { useDeleteCabin } from "./hooks/useDeleteCabin";
 import CreateCabinForm from "./CreateCabinForm";
+
+import styled from "styled-components";
 
 const TableRow = styled.div`
   display: grid;
@@ -59,18 +59,7 @@ export default function CabinRow({ cabin }) {
     image,
   } = cabin;
 
-  const queryClient = useQueryClient();
-
-  const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: deleteCabin,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-      toast.success("Cabin successfully deleted!");
-    },
-    onError: (err) => toast.error(err.message),
-  });
+  const { isDeleting, deleteCabin } = useDeleteCabin();
 
   return (
     <>
@@ -81,10 +70,10 @@ export default function CabinRow({ cabin }) {
         <Price>
           {regularPrice ? formatCurrency(regularPrice) : formatCurrency(0)}
         </Price>
-        <Discount>{discount ? `${discount}%` : "-"}</Discount>
+        <Discount>{discount ? `${discount}%` : <span>&mdash;</span>}</Discount>
         <div>
           <button onClick={() => setShowForm((show) => !show)}>Edit</button>
-          <button onClick={() => mutate(cabinId)} disabled={isDeleting}>
+          <button onClick={() => deleteCabin(cabinId)} disabled={isDeleting}>
             Delete
           </button>
         </div>
