@@ -1,22 +1,20 @@
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { createCabin } from "../../services/apiCabins";
-
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import FormRow from "../../ui/FormRow";
+import { useEffect } from "react";
 
 function CreateCabinForm() {
-  const { register, handleSubmit, getValues, formState, reset } = useForm();
+  const { register, handleSubmit, getValues, formState, reset, watch } =
+    useForm();
   const queryClient = useQueryClient();
-
-  const { errors } = formState;
-  console.log(errors);
+  const { errors, isDirty } = formState;
 
   const { isLoading: isCreating, mutate } = useMutation({
     mutationFn: createCabin,
@@ -38,6 +36,22 @@ function CreateCabinForm() {
     console.log(errors);
   }
 
+  // Warn the user when trying to close the form with unsaved changes
+  useEffect(() => {
+    const beforeUnloadHandler = (e) => {
+      if (isDirty) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", beforeUnloadHandler);
+
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnloadHandler);
+    };
+  }, [isDirty]);
+
   return (
     <Form onSubmit={handleSubmit(handleFormSubmit, onError)}>
       <FormRow label={"Cabin name"} error={errors?.name?.message}>
@@ -48,7 +62,7 @@ function CreateCabinForm() {
           disabled={isCreating}
         />
       </FormRow>
-      <FormRow label={"Maximum Capacity"} error={errors?.name?.message}>
+      <FormRow label={"Maximum Capacity"} error={errors?.maxCapacity?.message}>
         <Input
           type="number"
           id="maxCapacity"
@@ -76,7 +90,7 @@ function CreateCabinForm() {
         label={"Description for website"}
         error={errors?.description?.message}
       >
-        <Input
+        <Textarea
           type="text"
           id="description"
           {...register("description", { required: "This field is required!" })}
@@ -87,16 +101,24 @@ function CreateCabinForm() {
         <FileInput
           id="image"
           type="file"
-          {...register("image")}
+          {...register("image", {
+            required: "Please upload an image",
+          })}
           disabled={isCreating}
         />
       </FormRow>
 
       <FormRow>
-        {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset" disabled={isCreating}>
+        {/* Cancel Button */}
+        <Button
+          variation="secondary"
+          type="reset"
+          onClick={() => reset()} // Reset form when canceling
+          disabled={isCreating}
+        >
           Cancel
         </Button>
+        {/* Submit Button */}
         <Button disabled={isCreating}>Add cabin</Button>
       </FormRow>
     </Form>
