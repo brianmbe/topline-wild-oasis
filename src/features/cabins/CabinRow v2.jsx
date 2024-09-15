@@ -11,6 +11,7 @@ import useCreateCabin from "./hooks/useCreateCabin";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
 
 const Img = styled.img`
   display: block;
@@ -104,7 +105,17 @@ export default function CabinRow({ cabin }) {
           </Modal.Window>
         </Modal>
 
-        <Menus.Menus
+        <Menus.Menu>
+          <Menus.Toggle id={cabinId}></Menus.Toggle>
+
+          <Menus.List id={cabinId}>
+            <Menus.Button icon={<HiSquare2Stack />} onClick={handleCopyCabin}>
+              Copy
+            </Menus.Button>
+            <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+            <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+          </Menus.List>
+        </Menus.Menu>
       </div>
     </Table.Row>
   );
