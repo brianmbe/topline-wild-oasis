@@ -2,16 +2,17 @@
 
 import { useForm } from "react-hook-form";
 
+import useCreateCabin from "./hooks/useCreateCabin";
+import useEditingCabin from "./hooks/useEditingCabin";
+
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import FormRow from "../../ui/FormRow";
-import useCreateCabin from "./hooks/useCreateCabin";
-import useEditingCabin from "./hooks/useEditingCabin";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useEditingCabin();
   const isWroking = isCreating || isEditing;
@@ -34,6 +35,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         {
           onSuccess: () => {
             reset();
+            onCloseModal?.();
           },
         }
       );
@@ -43,6 +45,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         {
           onSuccess: () => {
             reset();
+            onCloseModal?.();
           },
         }
       );
@@ -54,7 +57,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(handleFormSubmitOnCreateCabin, onError)}>
+    <Form
+      onSubmit={handleSubmit(handleFormSubmitOnCreateCabin, onError)}
+      type={onCloseModal ? "modal" : "regular"}
+    >
       <FormRow label={"Cabin name"} error={errors?.name?.message}>
         <Input
           type="text"
@@ -111,7 +117,12 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset" disabled={isWroking}>
+        <Button
+          variation="secondary"
+          type="reset"
+          disabled={isWroking}
+          onClick={() => onCloseModal?.()}
+        >
           Cancel
         </Button>
         <Button disabled={isWroking}>

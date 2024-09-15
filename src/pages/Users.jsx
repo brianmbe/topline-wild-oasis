@@ -1,5 +1,7 @@
-import React from "react";
+import Heading from "../ui/Heading";
 
-export default function Users() {
-  return <div>Users</div>;
+function NewUsers() {
+  return <Heading as="h1">Create a new user</Heading>;
 }
+
+export default NewUsers;
