@@ -6,8 +6,7 @@ import toast from "react-hot-toast";
 export default function useCreateCabin() {
   const queryClient = useQueryClient();
 
-  const { errors } = useFormState;
-  console.log(errors);
+  // const { errors } = useFormState;
 
   const { isLoading: isCreating, mutate: createCabin } = useMutation({
     mutationFn: createOrEditCabin,
