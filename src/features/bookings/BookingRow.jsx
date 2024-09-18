@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
 
@@ -50,6 +51,7 @@ function BookingRow({
 }) {
   const statusToTagName = {
     unconfirmed: "blue",
+    confirmed: "yellow",
     "checked-in": "green",
     "checked-out": "silver",
   };
