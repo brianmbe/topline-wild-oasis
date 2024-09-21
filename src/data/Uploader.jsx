@@ -1,8 +1,9 @@
-import { isFuture, isPast, isToday } from "date-fns";
 import { useState } from "react";
-import supabase from "services/supabase";
-import Button from "ui/Button";
-import { subtractDates } from "utils/helpers";
+import { isFuture, isPast, isToday } from "date-fns";
+import supabase from "../services/supabase";
+import Button from "../ui/Button";
+
+import { subtractDates } from "../utils/helpers";
 import { bookings } from "./data-bookings";
 import { cabins } from "./data-cabins";
 import { guests } from "./data-guests";
@@ -54,13 +55,13 @@ async function createBookings() {
 
   const finalBookings = bookings.map((booking) => {
     // Here relying on the order of cabins, as they don't have and ID yet
-    const cabin = cabins.at(booking.cabinId - 1);
+    const cabin = cabins.at(booking.cabinID - 1);
     const numNights = subtractDates(booking.endDate, booking.startDate);
     const cabinPrice = numNights * (cabin.regularPrice - cabin.discount);
-    const extrasPrice = booking.hasBreakfast
+    const extraPrice = booking.hasBreakfast
       ? numNights * 15 * booking.numGuests
       : 0; // hardcoded breakfast price
-    const totalPrice = cabinPrice + extrasPrice;
+    const totalPrice = cabinPrice + extraPrice;
 
     let status;
     if (
@@ -85,10 +86,10 @@ async function createBookings() {
       ...booking,
       numNights,
       cabinPrice,
-      extrasPrice,
+      extraPrice,
       totalPrice,
-      guestId: allGuestIds.at(booking.guestId - 1),
-      cabinId: allCabinIds.at(booking.cabinId - 1),
+      guestID: allGuestIds.at(booking.guestID - 1),
+      cabinID: allCabinIds.at(booking.cabinID - 1),
       status,
     };
   });
@@ -134,7 +135,7 @@ export function Uploader() {
         textAlign: "center",
       }}
     >
-      <h3>DEV AREA</h3>
+      <h3>Sample Data</h3>
 
       <Button
         onClick={uploadAll}
@@ -142,17 +143,17 @@ export function Uploader() {
         disabled={isLoading}
         // disabled={true}
       >
-        Upload ALL sample data
+        Upload ALL
       </Button>
-      <p>Only run this only once!</p>
+      {/* <p>Only run this only once!</p>
       <p>
         <em>(Cabin images need to be uploaded manually)</em>
-      </p>
+      </p> */}
       <hr />
       <Button onClick={uploadBookings} disabled={isLoading}>
-        Upload CURRENT bookings
+        Upload bookings
       </Button>
-      <p>You can run this every day you develop the app</p>
+      {/* <p>You can run this every day you develop the app</p> */}
     </div>
   );
 }
