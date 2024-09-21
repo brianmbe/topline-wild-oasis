@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 /* eslint-disable react/prop-types */
 import { createContext, useContext } from "react";
 import styled from "styled-components";
@@ -42,8 +43,9 @@ const StyledRow = styled(CommonRow)`
   }
 `;
 
-const Footer = styled.footer`
-  background-color: var(--color-grey-50);
+const StyledFooter = styled.footer`
+  background-color: var(--color-grey-300);
+  font-weight: bold;
   display: flex;
   justify-content: center;
   padding: 1.2rem;
@@ -87,6 +89,16 @@ function Row({ children }) {
     <StyledRow role="row" columns={columns}>
       {children}
     </StyledRow>
+  );
+}
+
+function Footer({ children }) {
+  const { columns } = useContext(TableContext);
+
+  return (
+    <StyledFooter role="row" columns={columns}>
+      {children}
+    </StyledFooter>
   );
 }
 
