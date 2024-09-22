@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import styled from "styled-components";
-import { HiEye } from "react-icons/hi2";
+import { HiArrowDownOnSquare, HiEye } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 
 import { format, isToday } from "date-fns";
@@ -89,7 +89,7 @@ function BookingRow({
       <Amount>{formatCurrency(totalPrice)}</Amount>
 
       <Menus.Menu>
-        <Menus.Toggle id={bookingId}></Menus.Toggle>
+        <Menus.Toggle id={bookingId} />
         <Menus.List id={bookingId}>
           <Menus.Button
             icon={<HiEye />}
@@ -97,6 +97,15 @@ function BookingRow({
           >
             See details
           </Menus.Button>
+
+          {status === "unconfirmed" && (
+            <Menus.Button
+              icon={<HiArrowDownOnSquare />}
+              onClick={() => navigate(`/checkin/${bookingId}`)}
+            >
+              Check In
+            </Menus.Button>
+          )}
         </Menus.List>
       </Menus.Menu>
     </Table.Row>

@@ -95,6 +95,15 @@ const Price = styled.div`
   }
 `;
 
+const StyledSpan = styled.span`
+  padding: 1rem;
+  background-color: orange;
+  color: black;
+  text-transform: capitalize;
+  font-weight: bold;
+  border-radius: 10px;
+`;
+
 const Footer = styled.footer`
   padding: 1.6rem 4rem;
   font-size: 1.2rem;
@@ -126,7 +135,7 @@ function BookingDataBox({ booking }) {
         <div>
           <HiOutlineHomeModern />
           <p>
-            {numNights} nights in Cabin <span>{cabinName}</span>
+            {numNights} nights in Cabin <StyledSpan>{cabinName}</StyledSpan>
           </p>
         </div>
 
