@@ -22,6 +22,17 @@ const StyledBookingDataBox = styled.section`
   overflow: hidden;
 `;
 
+const Img = styled.img`
+  display: block;
+  width: 20.4rem;
+  height: 13rem;
+  margin-top: 20px;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.5) translateX(-35px);
+`;
+
 const Header = styled.header`
   background-color: var(--color-brand-500);
   padding: 2rem 4rem;
@@ -53,6 +64,8 @@ const Header = styled.header`
 `;
 
 const Section = styled.section`
+  display: flex;
+  justify-content: space-between;
   padding: 3.2rem 4rem 1.2rem;
 `;
 
@@ -126,7 +139,7 @@ function BookingDataBox({ booking }) {
     observations,
     isPaid,
     guests: { fullName: guestName, email, country, countryFlag, nationalID },
-    cabins: { name: cabinName },
+    cabins: { name: cabinName, image: cabinImage },
   } = booking;
 
   return (
@@ -149,42 +162,50 @@ function BookingDataBox({ booking }) {
       </Header>
 
       <Section>
-        <Guest>
-          {countryFlag && <Flag src={countryFlag} alt={`Flag of ${country}`} />}
-          <p>
-            {guestName} {numGuests > 1 ? `+ ${numGuests - 1} guests` : ""}
-          </p>
-          <span>&bull;</span>
-          <p>{email}</p>
-          <span>&bull;</span>
-          <p>National ID {nationalID}</p>
-        </Guest>
+        <div>
+          <Guest>
+            {countryFlag && (
+              <Flag src={countryFlag} alt={`Flag of ${country}`} />
+            )}
+            <p>
+              {guestName} {numGuests > 1 ? `+ ${numGuests - 1} guests` : ""}
+            </p>
+            <span>&bull;</span>
+            <p>{email}</p>
+            <span>&bull;</span>
+            <p>National ID {nationalID}</p>
+          </Guest>
 
-        {observations && (
-          <DataItem
-            icon={<HiOutlineChatBubbleBottomCenterText />}
-            label="Observations"
-          >
-            {observations}
-          </DataItem>
-        )}
+          {observations && (
+            <DataItem
+              icon={<HiOutlineChatBubbleBottomCenterText />}
+              label="Observations"
+            >
+              {observations}
+            </DataItem>
+          )}
 
-        <DataItem icon={<HiOutlineCheckCircle />} label="Breakfast included?">
-          {hasBreakfast ? "Yes" : "No"}
-        </DataItem>
-
-        <Price isPaid={isPaid}>
-          <DataItem icon={<HiOutlineCurrencyDollar />} label={`Total price`}>
-            {formatCurrency(totalPrice)}
-
-            {hasBreakfast &&
-              ` (${formatCurrency(cabinPrice)} cabin + ${formatCurrency(
-                extraPrice
-              )} breakfast)`}
+          <DataItem icon={<HiOutlineCheckCircle />} label="Breakfast included?">
+            {hasBreakfast ? "Yes" : "No"}
           </DataItem>
 
-          <p>{isPaid ? "Paid" : "Will pay on arrival"}</p>
-        </Price>
+          <Price isPaid={isPaid}>
+            <DataItem icon={<HiOutlineCurrencyDollar />} label={`Total price`}>
+              {formatCurrency(totalPrice)}
+
+              {hasBreakfast &&
+                ` (${formatCurrency(cabinPrice)} cabin + ${formatCurrency(
+                  extraPrice
+                )} breakfast)`}
+            </DataItem>
+
+            <p>{isPaid ? "Paid" : "Will pay on arrival"}</p>
+          </Price>
+        </div>
+
+        <div>
+          <Img src={cabinImage} />
+        </div>
       </Section>
 
       <Footer>

@@ -1,7 +1,14 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import styled from "styled-components";
 import { useMoveBack } from "../../hooks/useMoveBack";
+import { useNavigate } from "react-router-dom";
+import { HiArrowUpOnSquare } from "react-icons/hi2";
+
+import { useCheckOut } from "../check-in-out/useCheckOut";
+import { useDeleteBooking } from "./hooks/useDeleteBooking";
 import useBooking from "./hooks/usebooking";
 
+import Modal from "../../ui/Modal";
 import BookingDataBox from "./BookingDataBox";
 import Row from "../../ui/Row";
 import Heading from "../../ui/Heading";
@@ -10,7 +17,6 @@ import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
 import Spinner from "../../ui/Spinner";
-import { useNavigate } from "react-router-dom";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -20,6 +26,8 @@ const HeadingGroup = styled.div`
 
 function BookingDetail() {
   const { booking, isLoading } = useBooking();
+  const { checkOut, isCheckingOut } = useCheckOut();
+  const { deleteBooking, isDeleting } = useDeleteBooking();
   const moveBack = useMoveBack();
 
   const navigate = useNavigate();
@@ -52,9 +60,34 @@ function BookingDetail() {
             Check In
           </Button>
         )}
-        <Button variation="secondary" onClick={moveBack}>
-          Back
-        </Button>
+        {status === "unconfirmed" && (
+          <Button
+            variation="danger"
+            onClick={() => {
+              deleteBooking(bookingId);
+              navigate(-1);
+            }}
+            disabled={isDeleting}
+          >
+            Delete Booking
+          </Button>
+        )}
+
+        {status === "checked-in" && (
+          <Button
+            icon={<HiArrowUpOnSquare />}
+            onClick={() => checkOut(bookingId)}
+            disabled={isDeleting}
+          >
+            Check Out
+          </Button>
+        )}
+
+        {status === "checked-out" && (
+          <Button variation="secondary" onClick={moveBack}>
+            Back
+          </Button>
+        )}
       </ButtonGroup>
     </>
   );
