@@ -12,7 +12,7 @@ export function useLogin() {
     onSuccess: (user) => {
       // manually setting the user from the cache
       queryClient.setQueriesData(["user"], user);
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     },
     onError: () => {
       toast.error("Provide email or password is incorrect");
