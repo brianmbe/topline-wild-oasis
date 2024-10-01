@@ -2,6 +2,9 @@ import styled, { css } from "styled-components";
 
 const Row = styled.div`
   display: flex;
+  background-color: var(--color-grey-300);
+  padding: 2rem;
+  border-radius: 10px;
 
   ${(props) =>
     props.type === "horizontal" &&

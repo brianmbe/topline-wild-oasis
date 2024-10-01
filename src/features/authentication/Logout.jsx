@@ -1,4 +1,5 @@
-import { HiArrowRightOnRectangle } from "react-icons/hi2";
+// import { HiArrowRightOnRectangle } from "react-icons/hi2";
+import { HiLogout } from "react-icons/hi";
 
 import { useLogout } from "./hooks/useLogout";
 import ButtonIcon from "../../ui/ButtonIcon";
@@ -10,9 +11,8 @@ export default function Logout() {
   return (
     <>
       <ButtonIcon onClick={logout} disabled={isLoggingOut}>
-        {!isLoggingOut ? <HiArrowRightOnRectangle /> : <SpinnerMini />}
+        {!isLoggingOut ? <HiLogout /> : <SpinnerMini />}
       </ButtonIcon>
-      <span>Logout</span>
     </>
   );
 }
