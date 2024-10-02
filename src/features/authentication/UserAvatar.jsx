@@ -7,7 +7,7 @@ const StyledUserAvatar = styled.div`
   align-items: center;
   font-weight: 500;
   font-size: 1.4rem;
-  color: var(--color-grey-600);
+  color: var(--color-grey-0);
 `;
 
 const Avatar = styled.img`
@@ -31,7 +31,7 @@ export default function UserAvatar() {
         src={avatar || "default-user.jpg"}
         alt={`Avatar of ${fullName}`}
       />
-      <span style={{ color: "white" }}>{fullName || "Your Name"}</span>
+      <span>{fullName || "Your Name"}</span>
     </StyledUserAvatar>
   );
 }
