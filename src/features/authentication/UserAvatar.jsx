@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useUser } from "./hooks/useUser";
+import { useDarkMode } from "../../context/DarkModeContext";
 
 const StyledUserAvatar = styled.div`
   display: flex;
@@ -7,7 +8,7 @@ const StyledUserAvatar = styled.div`
   align-items: center;
   font-weight: 500;
   font-size: 1.4rem;
-  color: var(--color-grey-0);
+  color: var(--color-grey-50);
 `;
 
 const Avatar = styled.img`
@@ -24,14 +25,14 @@ const Avatar = styled.img`
 export default function UserAvatar() {
   const { user } = useUser();
   const { fullName, avatar } = user.user_metadata;
+  const { isDarkMode } = useDarkMode();
 
   return (
     <StyledUserAvatar>
-      <Avatar
-        src={avatar || "default-user.jpg"}
-        alt={`Avatar of ${fullName}`}
-      />
-      <span>{fullName || "Your Name"}</span>
+      <Avatar src={avatar || "default-user.jpg"} alt={`Avatar`} />
+      <span style={{ color: isDarkMode ? "white" : "black" }}>
+        {fullName || "Your Name"}
+      </span>
     </StyledUserAvatar>
   );
 }
