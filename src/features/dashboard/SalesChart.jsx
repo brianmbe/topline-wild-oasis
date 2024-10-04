@@ -8,7 +8,6 @@ import Heading from "../../ui/Heading";
 import {
   Area,
   AreaChart,
-  BarChart,
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
@@ -27,6 +26,13 @@ const StyledSalesChart = styled(DashboardBox)`
   & .recharts-cartesian-grid-vertical line {
     stroke: var(--color-grey-300);
   }
+`;
+
+export const StyledSpan = styled.span`
+  text-transform: capitalize;
+  background-color: var(--color-grey-300);
+  padding: 5px;
+  border-radius: 8px;
 `;
 
 // const fakeData = [
@@ -99,7 +105,13 @@ export default function SalesChart({ bookings, numDays }) {
 
   return (
     <StyledSalesChart>
-      <Heading as="h2">Sales</Heading>
+      <Heading as="h2">
+        Sales from{" "}
+        <StyledSpan>
+          {format(allDates[0], "MMM dd")} &mdash;{" "}
+          {format(allDates.at(-1), "MMM dd, yyyy")}
+        </StyledSpan>
+      </Heading>
 
       <ResponsiveContainer height={250} width={"100%"}>
         <AreaChart data={data}>
