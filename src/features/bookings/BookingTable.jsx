@@ -1,4 +1,4 @@
-import useBookings from "./hooks/usebookings";
+import useBookings from "./useBookings";
 
 import BookingRow from "./BookingRow";
 import Table from "../../ui/Table";
