@@ -1,6 +1,6 @@
 # The Wild Oasis
 
-![Login page](image-3.png)
-![Product ready for you](image.png)
-![cabins](image-1.png)
-![booking detail page](image-2.png)
+![Login page](public/image-3.png)
+![Product ready for you](public/image.png)
+![cabins](public/image-1.png)
+![booking detail page](public/image-2.png)
