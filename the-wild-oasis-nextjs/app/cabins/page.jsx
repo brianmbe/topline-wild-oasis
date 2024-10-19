@@ -1,13 +1,14 @@
 import CabinCard from "../_components/CabinCard";
 import Heading from "../_components/Heading";
+import { getCabins } from "../_lib/data-service";
 
 export const metadata = {
   title: "Cabins",
 };
 
 export default async function Cabins() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/users");
-  const data = await res.json();
+  // const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  // const data = await res.json();
 
   const cabins = [];
 
