@@ -10,11 +10,12 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
-    "@supabase/supabase-js": "^2.45.6",
+    "@supabase/supabase-js": "^2.46.1",
     "date-fns": "^4.1.0",
     "next": "14.2.15",
     "react": "^18",
     "react-dom": "^18",
+    "react-loader-spinner": "^6.1.6",
     "react-spinners": "^0.14.1"
   },
   "devDependencies": {
