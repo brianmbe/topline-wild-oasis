@@ -4,6 +4,7 @@ import Link from "next/link";
 
 function CabinCard({ cabin }) {
   const { id, name, maxCapacity, regularPrice, discount, image } = cabin;
+  const dollarRate = 3680.7;
 
   return (
     <div className="flex border-primary-800 border">
@@ -33,14 +34,16 @@ function CabinCard({ cabin }) {
             {discount > 0 ? (
               <>
                 <span className="text-3xl font-[350]">
-                  ${regularPrice - discount}
+                  Shs. {(regularPrice - discount) * dollarRate}
                 </span>
                 <span className="line-through font-semibold text-primary-600">
-                  ${regularPrice}
+                  Shs. {regularPrice * dollarRate}
                 </span>
               </>
             ) : (
-              <span className="text-3xl font-[350]">${regularPrice}</span>
+              <span className="text-3xl font-[350]">
+                Shs. {regularPrice * dollarRate}
+              </span>
             )}
             <span className="text-primary-200">/ night</span>
           </p>

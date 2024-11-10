@@ -10,7 +10,8 @@ const nextConfig = {
       },
     ],
   },
-  output: "export",
+  // static site generation (SSG)
+  // output: "export",
 };
 
 export default nextConfig;
