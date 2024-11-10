@@ -5,7 +5,7 @@ import Heading from "../_components/Heading";
 import Spinner from "../_components/Spinner";
 
 // revalidation with Cache
-export const revalidate = 15;
+// export const revalidate = 15;
 
 export const metadata = {
   title: "Cabins",

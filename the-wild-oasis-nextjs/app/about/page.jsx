@@ -3,15 +3,21 @@
 import Link from "next/link";
 import Image from "next/image";
 
+import { getCabin } from "../_lib/data-service";
+
 import Heading from "../_components/Heading";
 import aboutImg1 from "@/public/about-1.jpg";
 import aboutImg2 from "@/public/about-2.jpg";
+
+export const revalidate = 86400;
 
 export const metadata = {
   title: "About",
 };
 
-export default function About() {
+export default async function About() {
+  const cabins = await getCabin();
+
   return (
     <div className="grid grid-cols-5 gap-x-24 gap-y-32 text-lg items-center">
       <div className="col-span-3">
@@ -26,10 +32,10 @@ export default function About() {
             simple pleasures with family.
           </p>
           <p>
-            Our 8 luxury cabins provide a cozy base, but the real freedom and
-            peace you'll find in the surrounding mountains. Wander through lush
-            forests, breathe in the fresh air, and watch the stars twinkle above
-            from the warmth of a campfire or your hot tub.
+            Our {cabins.length} luxury cabins provide a cozy base, but the real
+            freedom and peace you'll find in the surrounding mountains. Wander
+            through lush forests, breathe in the fresh air, and watch the stars
+            twinkle above from the warmth of a campfire or your hot tub.
           </p>
           <p>
             This is where memorable moments are made, surrounded by nature's
