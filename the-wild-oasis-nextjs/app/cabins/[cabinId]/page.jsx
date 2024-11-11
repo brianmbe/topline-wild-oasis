@@ -5,6 +5,7 @@ import Image from "next/image";
 // Dynamic Metadata
 export async function generateMetadata({ params }) {
   const { name: cabinName } = await getCabin(params.cabinId);
+
   return {
     title: `Cabin ${cabinName}`,
   };
