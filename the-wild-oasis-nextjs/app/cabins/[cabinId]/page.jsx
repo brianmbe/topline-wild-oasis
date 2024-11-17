@@ -1,80 +1,61 @@
+import Cabin from "@/app/_components/Cabin";
+import Reservation from "@/app/_components/Reservation";
+import Spinner from "@/app/_components/Spinner";
 import { getCabin, getCabins } from "@/app/_lib/data-service";
-import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
+import { Suspense } from "react";
 
 // Dynamic Metadata
 export async function generateMetadata({ params }) {
-  const { name: cabinName } = await getCabin(params.cabinId);
-
-  return {
-    title: `Cabin ${cabinName}`,
-  };
+  try {
+    const { name: cabinName } = await getCabin(params.cabinId);
+    return {
+      title: `Cabin ${cabinName}`,
+    };
+  } catch (error) {
+    console.error("Error generating metadata:", error);
+    return {
+      title: "Cabin Details",
+    };
+  }
 }
 
 // Generating static params (SSG)
 export async function generateStaticParams() {
-  const cabins = await getCabins();
-
-  const ids = cabins.map((cabin) => ({ cabinId: String(cabin.id) }));
-  console.log(ids);
-
-  return ids;
+  try {
+    const cabins = await getCabins();
+    return cabins.map((cabin) => ({ cabinId: String(cabin.id) }));
+  } catch (error) {
+    console.error("Error generating static params:", error);
+    return [];
+  }
 }
 
 export default async function Page({ params }) {
-  const { image, name, description, maxCapacity } = await getCabin(
-    params.cabinId
-  );
-  console.log(params);
+  let cabin;
+
+  try {
+    cabin = await getCabin(params.cabinId);
+  } catch (error) {
+    console.error("Error fetching cabin data:", error);
+    return (
+      <div className="max-w-6xl mx-auto mt-8 text-center">
+        <p className="text-2xl text-red-500">Unable to load cabin details.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto mt-8">
-      <div className="grid grid-cols-[3fr_4fr] gap-20 border border-primary-800 py-3 px-10 mb-24">
-        <div className="relative scale-[1.15] -translate-x-3 w-full h-full">
-          <Image
-            fill
-            className="object-cover"
-            src={image}
-            alt={`Cabin ${name}`}
-          />
-        </div>
-
-        <div>
-          <h3 className="text-accent-600 font-black text-7xl mb-5 translate-x-[-254px] bg-primary-950 p-6 pb-1 w-[150%]">
-            Cabin {name}
-          </h3>
-
-          <p className="text-lg text-primary-300 mb-10">{description}</p>
-
-          <ul className="flex flex-col gap-4 mb-7">
-            <li className="flex gap-3 items-center">
-              <UsersIcon className="h-5 w-5 text-primary-600" />
-              <span className="text-lg">
-                For up to <span className="font-bold">{maxCapacity}</span>{" "}
-                guests
-              </span>
-            </li>
-            <li className="flex gap-3 items-center">
-              <MapPinIcon className="h-5 w-5 text-primary-600" />
-              <span className="text-lg">
-                Located in the heart of the{" "}
-                <span className="font-bold">Dolomites</span> (Italy)
-              </span>
-            </li>
-            <li className="flex gap-3 items-center">
-              <EyeSlashIcon className="h-5 w-5 text-primary-600" />
-              <span className="text-lg">
-                Privacy <span className="font-bold">100%</span> guaranteed
-              </span>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <Cabin cabin={cabin} />
 
       <div>
-        <h2 className="text-5xl font-semibold text-center">
-          Reserve today. Pay on arrival.
+        <h2 className="text-5xl font-semibold text-center mb-10 text-accent-400">
+          Reserve {cabin.name} today. Pay on arrival.
         </h2>
+
+        <Suspense fallback={<Spinner />}>
+          <Reservation cabin={cabin} />
+        </Suspense>
       </div>
     </div>
   );

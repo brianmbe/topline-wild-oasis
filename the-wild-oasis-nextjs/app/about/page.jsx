@@ -9,13 +9,11 @@ import Heading from "../_components/Heading";
 import aboutImg1 from "@/public/about-1.jpg";
 import aboutImg2 from "@/public/about-2.jpg";
 
-export const revalidate = 86400;
-
 export const metadata = {
   title: "About",
 };
 
-export default async function About() {
+export default async function Page() {
   const cabins = await getCabin();
 
   return (
